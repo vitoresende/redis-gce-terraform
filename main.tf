@@ -9,13 +9,13 @@ resource "google_service_account" "redis_sa" {
 resource "google_project_iam_member" "monitoring_writer" {
   project = var.project_id
   role    = "roles/monitoring.metricWriter"
-  member  = "service_account:${google_service_account.redis_sa.email}"
+  member  = "serviceAccount:${google_service_account.redis_sa.email}"
 }
 
 resource "google_project_iam_member" "logging_writer" {
   project = var.project_id
   role    = "roles/logging.logWriter"
-  member  = "service_account:${google_service_account.redis_sa.email}"
+  member  = "serviceAccount:${google_service_account.redis_sa.email}"
 }
 
 # 2. Firewall Rule to Allow Ingress Traffic on Redis Port 6379 from Internal VPC
