@@ -6,15 +6,15 @@ variable "project_id" {
 }
 
 variable "region" {
-  description = "GCP Region for the GCE instance and networking (Free Tier eligible: us-central1)."
+  description = "GCP Region for the GCE instance and networking (Free Tier eligible: us-east1)."
   type        = string
-  default     = "us-central1"
+  default     = "us-east1"
 }
 
 variable "zone" {
-  description = "GCP Zone for the GCE instance (Free Tier eligible: us-central1-a)."
+  description = "GCP Zone for the GCE instance (Free Tier eligible: us-east1-b)."
   type        = string
-  default     = "us-central1-a"
+  default     = "us-east1-b"
 }
 
 variable "instance_name" {
