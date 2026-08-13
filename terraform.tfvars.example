@@ -1,0 +1,13 @@
+# Example Terraform Input Variables
+# Copy this file to `terraform.tfvars` and update values before running `terraform apply`.
+
+project_id          = "your-gcp-project-id"
+region              = "us-central1"
+zone                = "us-central1-a"
+instance_name       = "redis-instance"
+machine_type        = "e2-micro"
+disk_size_gb        = 15
+network_name        = "default"
+redis_password      = "ChangeMeToASecurePassword123!"
+redis_maxmemory_mb  = 550
+alert_email_address = "admin@example.com"
