@@ -33,7 +33,15 @@ resource "google_compute_firewall" "allow_redis_internal" {
   description   = "Allow internal VPC traffic to Redis port 6379"
 }
 
-# 3. Google Compute Engine Instance (e2-micro in us-central1 for Free Tier)
+# 3. Static Reserved Internal IPv4 Address for Redis (100% Free & Fixed Forever)
+resource "google_compute_address" "redis_static_internal_ip" {
+  name         = "${var.instance_name}-static-ip"
+  subnetwork   = var.network_name
+  address_type = "INTERNAL"
+  region       = var.region
+}
+
+# 4. Google Compute Engine Instance (e2-micro for Free Tier)
 resource "google_compute_instance" "redis_vm" {
   name         = var.instance_name
   machine_type = var.machine_type
@@ -49,7 +57,9 @@ resource "google_compute_instance" "redis_vm" {
   }
 
   network_interface {
-    network = var.network_name
+    network    = var.network_name
+    subnetwork = var.network_name
+    network_ip = google_compute_address.redis_static_internal_ip.address
     access_config {
       # Allocate ephemeral external IP for initial SSH/setup package downloads
     }

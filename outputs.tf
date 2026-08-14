@@ -6,8 +6,8 @@ output "instance_name" {
 }
 
 output "redis_internal_ip" {
-  description = "Internal IPv4 address of the Redis GCE instance (use this in Cloud Run)."
-  value       = google_compute_instance.redis_vm.network_interface[0].network_ip
+  description = "Static internal IPv4 address reserved for Redis (Fixed forever, 100% Free)."
+  value       = google_compute_address.redis_static_internal_ip.address
 }
 
 output "redis_port" {
@@ -27,6 +27,6 @@ output "alert_policy_id" {
 
 output "connection_uri_example" {
   description = "Example internal connection URI for applications."
-  value       = "redis://:${var.redis_password}@${google_compute_instance.redis_vm.network_interface[0].network_ip}:6379"
+  value       = "redis://:${var.redis_password}@${google_compute_address.redis_static_internal_ip.address}:6379"
   sensitive   = true
 }

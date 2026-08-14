@@ -88,7 +88,7 @@ resource "google_monitoring_dashboard" "redis_dashboard" {
               {
                 timeSeriesQuery = {
                   timeSeriesFilter = {
-                    filter = "metric.type=\"agent.googleapis.com/redis/clients\" AND resource.type=\"gce_instance\" AND resource.label.instance_id=\"${google_compute_instance.redis_vm.instance_id}\""
+                    filter = "metric.type=\"workload.googleapis.com/redis.clients.connected\" AND resource.type=\"gce_instance\" AND resource.label.instance_id=\"${google_compute_instance.redis_vm.instance_id}\""
                   }
                 }
               }
@@ -102,14 +102,14 @@ resource "google_monitoring_dashboard" "redis_dashboard" {
               {
                 timeSeriesQuery = {
                   timeSeriesFilter = {
-                    filter = "metric.type=\"agent.googleapis.com/redis/keyspace/hits\" AND resource.type=\"gce_instance\" AND resource.label.instance_id=\"${google_compute_instance.redis_vm.instance_id}\""
+                    filter = "metric.type=\"workload.googleapis.com/redis.keyspace.hits\" AND resource.type=\"gce_instance\" AND resource.label.instance_id=\"${google_compute_instance.redis_vm.instance_id}\""
                   }
                 }
               },
               {
                 timeSeriesQuery = {
                   timeSeriesFilter = {
-                    filter = "metric.type=\"agent.googleapis.com/redis/keyspace/misses\" AND resource.type=\"gce_instance\" AND resource.label.instance_id=\"${google_compute_instance.redis_vm.instance_id}\""
+                    filter = "metric.type=\"workload.googleapis.com/redis.keyspace.misses\" AND resource.type=\"gce_instance\" AND resource.label.instance_id=\"${google_compute_instance.redis_vm.instance_id}\""
                   }
                 }
               }
@@ -123,7 +123,7 @@ resource "google_monitoring_dashboard" "redis_dashboard" {
               {
                 timeSeriesQuery = {
                   timeSeriesFilter = {
-                    filter = "metric.type=\"agent.googleapis.com/redis/keyspace/keys\" AND resource.type=\"gce_instance\" AND resource.label.instance_id=\"${google_compute_instance.redis_vm.instance_id}\""
+                    filter = "metric.type=\"workload.googleapis.com/redis.db.keys\" AND resource.type=\"gce_instance\" AND resource.label.instance_id=\"${google_compute_instance.redis_vm.instance_id}\""
                   }
                 }
               }
@@ -137,7 +137,7 @@ resource "google_monitoring_dashboard" "redis_dashboard" {
               {
                 timeSeriesQuery = {
                   timeSeriesFilter = {
-                    filter = "metric.type=\"agent.googleapis.com/redis/expired_keys\" AND resource.type=\"gce_instance\" AND resource.label.instance_id=\"${google_compute_instance.redis_vm.instance_id}\""
+                    filter = "metric.type=\"workload.googleapis.com/redis.keys.expired\" AND resource.type=\"gce_instance\" AND resource.label.instance_id=\"${google_compute_instance.redis_vm.instance_id}\""
                   }
                 }
               }
