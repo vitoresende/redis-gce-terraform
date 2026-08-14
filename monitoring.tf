@@ -61,6 +61,10 @@ resource "google_monitoring_dashboard" "redis_dashboard" {
                 timeSeriesQuery = {
                   timeSeriesFilter = {
                     filter = "metric.type=\"agent.googleapis.com/memory/percent_used\" AND resource.type=\"gce_instance\" AND metric.label.state=\"used\" AND resource.label.instance_id=\"${google_compute_instance.redis_vm.instance_id}\""
+                    aggregation = {
+                      alignmentPeriod  = "60s"
+                      perSeriesAligner = "ALIGN_MEAN"
+                    }
                   }
                 }
               }
@@ -75,6 +79,10 @@ resource "google_monitoring_dashboard" "redis_dashboard" {
                 timeSeriesQuery = {
                   timeSeriesFilter = {
                     filter = "metric.type=\"compute.googleapis.com/instance/cpu/utilization\" AND resource.type=\"gce_instance\" AND resource.label.instance_id=\"${google_compute_instance.redis_vm.instance_id}\""
+                    aggregation = {
+                      alignmentPeriod  = "60s"
+                      perSeriesAligner = "ALIGN_MEAN"
+                    }
                   }
                 }
               }
@@ -89,6 +97,10 @@ resource "google_monitoring_dashboard" "redis_dashboard" {
                 timeSeriesQuery = {
                   timeSeriesFilter = {
                     filter = "metric.type=\"workload.googleapis.com/redis.clients.connected\" AND resource.type=\"gce_instance\" AND resource.label.instance_id=\"${google_compute_instance.redis_vm.instance_id}\""
+                    aggregation = {
+                      alignmentPeriod  = "60s"
+                      perSeriesAligner = "ALIGN_MEAN"
+                    }
                   }
                 }
               }
@@ -96,13 +108,17 @@ resource "google_monitoring_dashboard" "redis_dashboard" {
           }
         },
         {
-          title = "4. Cache Hits vs Misses"
+          title = "4. Cache Hits vs Misses (req/s)"
           xyChart = {
             dataSets = [
               {
                 timeSeriesQuery = {
                   timeSeriesFilter = {
                     filter = "metric.type=\"workload.googleapis.com/redis.keyspace.hits\" AND resource.type=\"gce_instance\" AND resource.label.instance_id=\"${google_compute_instance.redis_vm.instance_id}\""
+                    aggregation = {
+                      alignmentPeriod  = "60s"
+                      perSeriesAligner = "ALIGN_RATE"
+                    }
                   }
                 }
               },
@@ -110,6 +126,10 @@ resource "google_monitoring_dashboard" "redis_dashboard" {
                 timeSeriesQuery = {
                   timeSeriesFilter = {
                     filter = "metric.type=\"workload.googleapis.com/redis.keyspace.misses\" AND resource.type=\"gce_instance\" AND resource.label.instance_id=\"${google_compute_instance.redis_vm.instance_id}\""
+                    aggregation = {
+                      alignmentPeriod  = "60s"
+                      perSeriesAligner = "ALIGN_RATE"
+                    }
                   }
                 }
               }
@@ -124,6 +144,10 @@ resource "google_monitoring_dashboard" "redis_dashboard" {
                 timeSeriesQuery = {
                   timeSeriesFilter = {
                     filter = "metric.type=\"workload.googleapis.com/redis.db.keys\" AND resource.type=\"gce_instance\" AND resource.label.instance_id=\"${google_compute_instance.redis_vm.instance_id}\""
+                    aggregation = {
+                      alignmentPeriod  = "60s"
+                      perSeriesAligner = "ALIGN_MEAN"
+                    }
                   }
                 }
               }
@@ -131,13 +155,17 @@ resource "google_monitoring_dashboard" "redis_dashboard" {
           }
         },
         {
-          title = "6. Expired Keys (Auto-Cleanup)"
+          title = "6. Expired Keys (keys/s)"
           xyChart = {
             dataSets = [
               {
                 timeSeriesQuery = {
                   timeSeriesFilter = {
                     filter = "metric.type=\"workload.googleapis.com/redis.keys.expired\" AND resource.type=\"gce_instance\" AND resource.label.instance_id=\"${google_compute_instance.redis_vm.instance_id}\""
+                    aggregation = {
+                      alignmentPeriod  = "60s"
+                      perSeriesAligner = "ALIGN_RATE"
+                    }
                   }
                 }
               }
