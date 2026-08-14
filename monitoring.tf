@@ -45,3 +45,106 @@ resource "google_monitoring_alert_policy" "memory_high_alert" {
     mime_type = "text/markdown"
   }
 }
+
+# 3. Custom Google Cloud Monitoring Dashboard for Redis GCE
+resource "google_monitoring_dashboard" "redis_dashboard" {
+  dashboard_json = jsonencode({
+    displayName = "Redis GCE Performance Dashboard"
+    gridLayout = {
+      columns = "2"
+      widgets = [
+        {
+          title = "1. RAM Memory Utilization (%)"
+          xyChart = {
+            dataSets = [
+              {
+                timeSeriesQuery = {
+                  timeSeriesFilter = {
+                    filter = "metric.type=\"agent.googleapis.com/memory/percent_used\" AND resource.type=\"gce_instance\" AND metric.label.state=\"used\" AND resource.label.instance_id=\"${google_compute_instance.redis_vm.instance_id}\""
+                  }
+                }
+              }
+            ]
+          }
+        },
+        {
+          title = "2. VM CPU Utilization (%)"
+          xyChart = {
+            dataSets = [
+              {
+                timeSeriesQuery = {
+                  timeSeriesFilter = {
+                    filter = "metric.type=\"compute.googleapis.com/instance/cpu/utilization\" AND resource.type=\"gce_instance\" AND resource.label.instance_id=\"${google_compute_instance.redis_vm.instance_id}\""
+                  }
+                }
+              }
+            ]
+          }
+        },
+        {
+          title = "3. Active Connections / Connected Clients"
+          xyChart = {
+            dataSets = [
+              {
+                timeSeriesQuery = {
+                  timeSeriesFilter = {
+                    filter = "metric.type=\"agent.googleapis.com/redis/clients\" AND resource.type=\"gce_instance\" AND resource.label.instance_id=\"${google_compute_instance.redis_vm.instance_id}\""
+                  }
+                }
+              }
+            ]
+          }
+        },
+        {
+          title = "4. Cache Hits vs Misses"
+          xyChart = {
+            dataSets = [
+              {
+                timeSeriesQuery = {
+                  timeSeriesFilter = {
+                    filter = "metric.type=\"agent.googleapis.com/redis/keyspace/hits\" AND resource.type=\"gce_instance\" AND resource.label.instance_id=\"${google_compute_instance.redis_vm.instance_id}\""
+                  }
+                }
+              },
+              {
+                timeSeriesQuery = {
+                  timeSeriesFilter = {
+                    filter = "metric.type=\"agent.googleapis.com/redis/keyspace/misses\" AND resource.type=\"gce_instance\" AND resource.label.instance_id=\"${google_compute_instance.redis_vm.instance_id}\""
+                  }
+                }
+              }
+            ]
+          }
+        },
+        {
+          title = "5. Active Keys Stored in DB0"
+          xyChart = {
+            dataSets = [
+              {
+                timeSeriesQuery = {
+                  timeSeriesFilter = {
+                    filter = "metric.type=\"agent.googleapis.com/redis/keyspace/keys\" AND resource.type=\"gce_instance\" AND resource.label.instance_id=\"${google_compute_instance.redis_vm.instance_id}\""
+                  }
+                }
+              }
+            ]
+          }
+        },
+        {
+          title = "6. Expired Keys (Auto-Cleanup)"
+          xyChart = {
+            dataSets = [
+              {
+                timeSeriesQuery = {
+                  timeSeriesFilter = {
+                    filter = "metric.type=\"agent.googleapis.com/redis/expired_keys\" AND resource.type=\"gce_instance\" AND resource.label.instance_id=\"${google_compute_instance.redis_vm.instance_id}\""
+                  }
+                }
+              }
+            ]
+          }
+        }
+      ]
+    }
+  })
+}

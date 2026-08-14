@@ -116,7 +116,7 @@ metrics:
   receivers:
     redis:
       type: redis
-      endpoint: "127.0.0.1:6379"
+      address: "127.0.0.1:6379"
       password: "${var.redis_password}"
   service:
     pipelines:
